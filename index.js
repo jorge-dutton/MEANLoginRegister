@@ -16,7 +16,7 @@ const constantsRoutes = require('./routes/constantsRoutes');
 mongoose.Promise = require('bluebird');
 mongoose.connect(config.database)
     .then(function(){
-        console.log('connection succesful')
+        console.log('connection succesful');
     })
     .catch(function(err){
         console.error(err)
