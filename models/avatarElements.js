@@ -4,7 +4,14 @@
 const mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
+
 var AvatarSchema = new mongoose.Schema({
+    hairTypes: [
+        Schema.Types.Mixed
+    ],
+    complements: [
+        Schema.Types.Mixed
+    ],
     hairColors: [
         {
             color: Number,
@@ -16,21 +23,8 @@ var AvatarSchema = new mongoose.Schema({
             color: Number,
             image: String
         }
-    ],
-    hairTypes: [
-        {
-            color: Number,
-            type: Number,
-            image: String
-        }
-    ],
-    complements: [
-        {
-            comp: Number,
-            type: Number,
-            image: String
-        }
     ]
+
 }, { collection: 'followings-avatar-elements' });
 
 module.exports = mongoose.model('AvatarElement', AvatarSchema);

@@ -18,5 +18,5 @@ module.exports = function(app) {
     apiRoutes.get('/avatar-elements', ConstantsController.getAllAvatarElements);
 
     // Set url for API group routes
-    app.use('/followings', apiRoutes);
+    app.use('/api', apiRoutes);
 };

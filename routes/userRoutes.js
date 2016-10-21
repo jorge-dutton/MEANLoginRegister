@@ -17,5 +17,5 @@ module.exports = function(app) {
     apiRoutes.put('/update-user', requireAuth, UsersController.updateUser);
 
     // Set url for API group routes
-    app.use('/followings', apiRoutes);
+    app.use('/api', apiRoutes);
 };

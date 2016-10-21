@@ -13,12 +13,12 @@ const jwt = require('jsonwebtoken'),
 // GET Avatar elements
 //========================================
 module.exports.getAllAvatarElements = function(req, res, next) {
-    console.log('Looking for avatar elements. ');
 
     AvatarElements.find({}, function(err, avatarElements){
         if(err) {
             return next(err);
         }
+        console.log(JSON.stringify(avatarElements.hairTypes));
         res.json(avatarElements);
     });
 };

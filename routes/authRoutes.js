@@ -58,5 +58,5 @@ module.exports = function(app) {
     //authRoutes.get('/instagram', googleAuth);
     //authRoutes.get('/instagram/callback', googleAuthCallback, AuthenticationController.instagramCallback );
 
-    app.use('/followings', apiRoutes);
+    app.use('/api', apiRoutes);
 };
