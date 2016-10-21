@@ -47,7 +47,7 @@ module.exports.login = function(req, res, next) {
 module.exports.register = function(req, res, next) {
     // Check for registration errors
     const email = req.body.email;
-    const userName = req.body.userName;
+    const userName = req.body.username;
     const password = req.body.password;
 
     // Return error if no email provided
@@ -77,7 +77,7 @@ module.exports.register = function(req, res, next) {
         var user = new User({
             email: email,
             password: password,
-            userName: userName
+            username: userName
         });
 
         user.save(function(err, user) {
