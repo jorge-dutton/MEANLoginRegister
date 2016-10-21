@@ -32,12 +32,27 @@ function setUserInfo(request) {
 // Login Route
 //========================================
 module.exports.login = function(req, res, next) {
+    var userInfo = setUserInfo(req.user),
+        token = generateToken(userInfo);
 
-    var userInfo = setUserInfo(req.user);
+    res.cookie('jwt',token);
 
     res.status(200).json({
-        token: 'JWT ' + generateToken(userInfo),
+        token: 'JWT ' + token,
         user: userInfo
+    });
+};
+
+//========================================
+// Logout Route
+//========================================
+module.exports.logout = function(req, res, next) {
+
+    req.session.destroy();
+    res.cookie('jwt', '');
+
+    res.status(200).json({
+        message: 'Logout successful'
     });
 };
 
@@ -94,7 +109,6 @@ module.exports.register = function(req, res, next) {
 };
 
 module.exports.facebookCallback = function (req, res, next) {
-    console.log('Facebook It worked! User id is: ' + JSON.stringify(req.user) + '.');
     var userInfo = setUserInfo(req.user);
     res.status(200).json({
         token: 'JWT ' + generateToken(userInfo),
@@ -103,7 +117,6 @@ module.exports.facebookCallback = function (req, res, next) {
 };
 
 module.exports.googleCallback = function (req, res, next) {
-    console.log('Google It worked! User id is: ' + JSON.stringify(req.user) + '.');
     var userInfo = setUserInfo(req.user);
     res.status(200).json({
         token: 'JWT ' + generateToken(userInfo),
@@ -112,7 +125,6 @@ module.exports.googleCallback = function (req, res, next) {
 };
 
 module.exports.instagramCallback = function (req, res, next) {
-    console.log('Google It worked! User id is: ' + JSON.stringify(req.user) + '.');
     var userInfo = setUserInfo(req.user);
     res.status(200).json({
         token: 'JWT ' + generateToken(userInfo),

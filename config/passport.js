@@ -38,10 +38,17 @@ const localLogin = new LocalStrategy(localOptions,
         });
 });
 
+var cookieExtractor = function(req) {
+    console.log(req.cookies);
+    var token = null;
+    if (req && req.cookies) token = req.cookies['jwt'];
+    return token;
+};
+
 // Now, let's set up the JWT authentication options
 const jwtOptions = {
     // Telling Passport to check authorization headers for JWT
-    jwtFromRequest: ExtractJwt.fromAuthHeader(),
+    jwtFromRequest: cookieExtractor,
     // Telling Passport where to find the secret
     secretOrKey: config.secret
 };
@@ -52,7 +59,7 @@ const jwtOptions = {
 // When in doubt, add console.log(payload); to your code and search the console for the right user ID
 // if you are always getting the same user back when logging in different user accounts.
 const jwtLogin = new JwtStrategy(jwtOptions, function(payload, done) {
-    console.log(payload);
+    console.log("Payload " + JSON.stringify(payload));
     User.findById(payload._id, function(err, user) {
         if (err) { return done(err, false); }
 

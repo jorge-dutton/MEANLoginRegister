@@ -5,6 +5,7 @@ const AuthenticationController = require('../controllers/authentication'),
 
 // Middleware to require login/auth
 const requireLogin = passport.authenticate('local', { session: false });
+const requireAuth = passport.authenticate('jwt', { session: false });
 const facebookAuth = passport.authenticate('facebook', { scope : 'email' });
 const facebookAuthCallback = passport.authenticate('facebook', { session: false, failureRedirect: '/' });
 const googleAuth = passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login', 'email'] });
@@ -29,6 +30,9 @@ module.exports = function(app) {
 
     // Login route
     authRoutes.post('/login', requireLogin, AuthenticationController.login);
+
+    // Logout route
+    authRoutes.get('/logout', requireAuth, AuthenticationController.logout);
 
     //==============================================================
     // Facebook routes

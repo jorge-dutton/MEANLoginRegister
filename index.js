@@ -5,13 +5,23 @@ const express = require('express'),
     bodyParser = require('body-parser'),
     logger = require('morgan'),
     mongoose = require('mongoose'),
+    cookieParser = require('cookie-parser'),
+    session = require('express-session'),
+    MongoStore = require('connect-mongo')(session),
     config = require('./config/main');
 
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
 const constantsRoutes = require('./routes/constantsRoutes');
 
-
+var sessionOptions = {
+    secret: 'supersecretisimo',
+    resave: true,
+    saveUninitialized: false,
+    store: new MongoStore({
+        url: config.database
+    })
+};
 //Connecting to mongodb
 mongoose.Promise = require('bluebird');
 mongoose.connect(config.database)
@@ -27,6 +37,9 @@ console.log('Server successfully started on port ' + config.port);
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+app.use(cookieParser());
+app.use(session(sessionOptions));
+
 app.use(logger('dev'));
 
 //Enable CORS from client side

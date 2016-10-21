@@ -7,7 +7,7 @@ const User = require('../models/user'),
 // GET User Data Route
 //========================================
 module.exports.userData = function(req, res, next) {
-
+    console.log('session? ' + JSON.stringify(req.session));
     User.findOne({ _id: req.user._id }, function(err, user){
         if(err) {
             return next(err);
