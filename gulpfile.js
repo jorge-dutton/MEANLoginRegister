@@ -14,11 +14,14 @@ gulp.task('jshint', function () {
         .pipe(jshint())
         .pipe(jshint.reporter('jshint-stylish'))
         .pipe(jshint.reporter('fail'));
-
 });
 
 gulp.task('build', function () {
-    gulp.src('**/*.js')
+    gulp.src(['./index.js',
+        './routes/*.js',
+        '*/models/*.js',
+        '*/controllers/*.js',
+        '*/config/*.js'])
         .pipe(uglify().on('error', gutil.log))
         .pipe(gulp.dest('./build/followings.min.js'));
 });
