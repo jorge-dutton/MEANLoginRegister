@@ -5,13 +5,12 @@
 
 const jwt = require('jsonwebtoken'),
     crypto = require('crypto'),
-    User = require('../models/user'),
-    config = require('../config/main');
+    User = require('../models/user');
 
 //function to generate a JSON web token from the user object we pass in
 function generateToken(user) {
     console.log('Generating new token!!!');
-    return jwt.sign(user, config.secret, {
+    return jwt.sign(user, process.env.SECRET, {
         expiresIn : 60*60*24 // in seconds
     });
 }

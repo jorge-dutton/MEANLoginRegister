@@ -6,8 +6,7 @@
 const jwt = require('jsonwebtoken'),
     AvatarElements = require('../models/avatarElements'),
     Skill = require('../models/skill'),
-    Profession = require('../models/profession'),
-    config = require('../config/main');
+    Profession = require('../models/profession');
 
 //========================================
 // GET Avatar elements
