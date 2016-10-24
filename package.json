@@ -4,7 +4,7 @@
   "description": "Followings API server",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nf start dev=1"
   },
   "author": "JDutton",
   "license": "ISC",
