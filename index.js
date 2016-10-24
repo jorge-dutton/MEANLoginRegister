@@ -1,4 +1,4 @@
-const express = require('express'),
+var express = require('express'),
     app = express(),
     flash = require('connect-flash'),
     passport = require('passport'),
@@ -7,11 +7,10 @@ const express = require('express'),
     mongoose = require('mongoose'),
     cookieParser = require('cookie-parser'),
     session = require('express-session'),
-    MongoStore = require('connect-mongo')(session);
-
-const authRoutes = require('./routes/authRoutes');
-const userRoutes = require('./routes/userRoutes');
-const constantsRoutes = require('./routes/constantsRoutes');
+    MongoStore = require('connect-mongo')(session),
+    authRoutes = require('./routes/authRoutes'),
+    userRoutes = require('./routes/userRoutes'),
+    constantsRoutes = require('./routes/constantsRoutes');
 
 var sessionOptions = {
     secret: 'supersecretisimo',
@@ -28,10 +27,10 @@ mongoose.connect(process.env.DATABASE)
         console.log('connection succesful');
     })
     .catch(function(err){
-        console.error(err)
+        console.error(err);
     });
 
-const server = app.listen(process.env.PORT || 3000);
+var server = app.listen(process.env.PORT || 3000);
 console.log('Server successfully started on port ' + (process.env.PORT || 3000));
 
 app.use(bodyParser.urlencoded({ extended: false }));

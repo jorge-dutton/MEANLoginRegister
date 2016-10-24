@@ -1,14 +1,14 @@
-const UsersController = require('../controllers/users'),
+var UsersController = require('../controllers/users'),
     express = require('express'),
     passportService = require('../config/passport'),
     passport = require('passport');
 
 // Middleware to require login/auth
-const requireAuth = passport.authenticate('jwt', { session: false });
+var requireAuth = passport.authenticate('jwt', { session: false });
 
 module.exports = function(app) {
     // Initializing route groups
-    const apiRoutes = express.Router();
+    var apiRoutes = express.Router();
 
     // User data
     apiRoutes.get('/user', requireAuth, UsersController.userData);
