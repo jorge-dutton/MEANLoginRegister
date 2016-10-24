@@ -14,7 +14,7 @@ module.exports = function(app) {
     apiRoutes.get('/user', requireAuth, UsersController.userData);
 
     // User update
-    apiRoutes.put('/update-user', requireAuth, UsersController.updateUser);
+    apiRoutes.put('/user', requireAuth, UsersController.updateUser);
 
     // Set url for API group routes
     app.use('/api', apiRoutes);
