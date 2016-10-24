@@ -1,21 +1,21 @@
-const AuthenticationController = require('../controllers/authentication'),
+var AuthenticationController = require('../controllers/authentication'),
     express = require('express'),
     passportService = require('../config/passport'),
     passport = require('passport');
 
 // Middleware to require login/auth
-const requireLogin = passport.authenticate('local', { session: false });
-const requireAuth = passport.authenticate('jwt', { session: false });
-const facebookAuth = passport.authenticate('facebook', { scope : 'email' });
-const facebookAuthCallback = passport.authenticate('facebook', { session: false, failureRedirect: '/' });
-const googleAuth = passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login', 'email'] });
-const googleAuthCallback = passport.authenticate('google', { session: false, failureRedirect: '/' });
-//const instagramAuth = passport.authenticate('instagram');
+var requireLogin = passport.authenticate('local', { session: false }),
+    requireAuth = passport.authenticate('jwt', { session: false }),
+    facebookAuth = passport.authenticate('facebook', { scope : 'email' }),
+    facebookAuthCallback = passport.authenticate('facebook', { session: false, failureRedirect: '/' }),
+    googleAuth = passport.authenticate('google', { scope: ['https://www.googleapis.com/auth/plus.login', 'email'] }),
+    googleAuthCallback = passport.authenticate('google', { session: false, failureRedirect: '/' });
+//const instagramAuth = passport.authenticate('instagram')'
 //const instagramAuthCallback = passport.authenticate('instagram', { session: false, failureRedirect: '/' });
 
 module.exports = function(app) {
     // Initializing route groups
-    const apiRoutes = express.Router(),
+    var apiRoutes = express.Router(),
         authRoutes = express.Router();
 
     //=========================

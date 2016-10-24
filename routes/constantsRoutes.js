@@ -1,10 +1,10 @@
-const ConstantsController = require('../controllers/constants'),
+var ConstantsController = require('../controllers/constants'),
     express = require('express'),
     passport = require('passport');
 
 module.exports = function(app) {
     // Initializing route groups
-    const apiRoutes = express.Router();
+    var apiRoutes = express.Router();
 
     //=============================================================
     // Constants Routes for avatar-elements, skills and professions
