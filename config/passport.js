@@ -3,7 +3,6 @@
  */
 const passport = require('passport'),
     User = require('../models/user'),
-    config = require('./main'),
     JwtStrategy = require('passport-jwt').Strategy,
     ExtractJwt = require('passport-jwt').ExtractJwt,
     LocalStrategy = require('passport-local'),
@@ -50,7 +49,7 @@ const jwtOptions = {
     // Telling Passport to check authorization headers for JWT
     jwtFromRequest: cookieExtractor,
     // Telling Passport where to find the secret
-    secretOrKey: config.secret
+    secretOrKey: process.env.SECRET
 };
 
 // Setting up JWT login strategy passing through our options...
@@ -59,7 +58,7 @@ const jwtOptions = {
 // When in doubt, add console.log(payload); to your code and search the console for the right user ID
 // if you are always getting the same user back when logging in different user accounts.
 const jwtLogin = new JwtStrategy(jwtOptions, function(payload, done) {
-    console.log("Payload " + JSON.stringify(payload));
+
     User.findById(payload._id, function(err, user) {
         if (err) { return done(err, false); }
 

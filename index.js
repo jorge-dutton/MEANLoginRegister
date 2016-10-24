@@ -7,8 +7,7 @@ const express = require('express'),
     mongoose = require('mongoose'),
     cookieParser = require('cookie-parser'),
     session = require('express-session'),
-    MongoStore = require('connect-mongo')(session),
-    config = require('./config/main');
+    MongoStore = require('connect-mongo')(session);
 
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
@@ -19,12 +18,12 @@ var sessionOptions = {
     resave: true,
     saveUninitialized: false,
     store: new MongoStore({
-        url: config.database
+        url: process.env.DATABASE
     })
 };
 //Connecting to mongodb
 mongoose.Promise = require('bluebird');
-mongoose.connect(config.database)
+mongoose.connect(process.env.DATABASE)
     .then(function(){
         console.log('connection succesful');
     })
@@ -32,8 +31,8 @@ mongoose.connect(config.database)
         console.error(err)
     });
 
-const server = app.listen(config.port);
-console.log('Server successfully started on port ' + config.port);
+const server = app.listen(process.env.PORT || 3000);
+console.log('Server successfully started on port ' + (process.env.PORT || 3000));
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
