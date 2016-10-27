@@ -103,7 +103,7 @@ const facebookLogin = new FacebookStrategy(facebookOptions, function(token, refr
                     token: token
                 };
 
-                newUser.userName = profile.name.givenName + ' ' + profile.name.familyName;
+                newUser.username = profile.name.givenName + ' ' + profile.name.familyName;
                 newUser.email = profile.emails[0].value;
 
                 newUser.save(function(err) {
@@ -147,7 +147,7 @@ const googleLogin = new GoogleStrategy(googleOptions, function(token, refreshTok
                     token: token
                 };
 
-                newUser.userName = profile.displayName;
+                newUser.username = profile.displayName;
                 newUser.email = profile.emails[0].value;
 
                 newUser.save(function(err) {
@@ -192,7 +192,7 @@ const instagramkLogin = new FacebookStrategy(instagramOptions, function(token, r
                     token: token
                 };
 
-                newUser.userName = profile.name.givenName + ' ' + profile.name.familyName;
+                newUser.username = profile.name.givenName + ' ' + profile.name.familyName;
                 newUser.email = profile.emails[0].value;
 
                 newUser.save(function(err) {

@@ -1,15 +1,14 @@
 'use strict';
 
-const User = require('../models/user'),
+var User = require('../models/user'),
     Profession = require('../models/profession');
 
 //========================================
 // GET User Data Route
 //========================================
 module.exports.userData = function(req, res, next) {
-    console.log('session? ' + JSON.stringify(req.session));
     User.findOne({ _id: req.user._id }, function(err, user){
-        if(err) {
+        if (err) {
             return next(err);
         }
         res.json(user);
@@ -19,7 +18,7 @@ module.exports.userData = function(req, res, next) {
 function setUserInfo(request) {
     return {
         _id: request._id,
-        userName: request.userName,
+        username: request.username,
         email: request.email,
         professionDeck: request.professionDeck,
         selectedProfessions: request.selectedProfessions,
@@ -34,12 +33,41 @@ function setUserInfo(request) {
 *
 * */
 module.exports.updateUser = function (req, res, next) {
-
-    var skills = req.user.skills,
+    console.log(req.body.username);
+    var skills = [],
         deck = [],
         professionsForMatch = [];
 
-    User.findOne({ _id: req.user._id }).exec().then(function(user){
+    User.findOne({ _id: req.user._id }).exec().then(function (user) {
+        var userToSave = user,
+            selectedProfessions = user.selectedProfessions,
+            avatar = user.avatar,
+            username = user.username,
+            sex = user.sex;
+
+        if (req.body.username) {
+            username = req.body.username;
+            userToSave.username = username;
+        }
+
+        if (req.body.skin) {
+            userToSave.avatar.skin = req.body.skin;
+        }
+
+        if (req.body.hair) {
+            userToSave.avatar.hair = req.body.hair;
+        }
+
+
+        if (req.body.sex) {
+            sex = req.body.sex;
+            userToSave.sex = sex;
+        }
+
+        if (req.body.skills) {
+            skills = req.body.skills;
+            userToSave.skills = skills;
+        }
 
         return Profession.find({}).exec().then(function(professions) {
             var auxProfession = {};
@@ -69,19 +97,41 @@ module.exports.updateUser = function (req, res, next) {
                 deck.push(professionsForMatch[k].id);
             }
 
-            user.professionDeck = deck;
+            userToSave.professionDeck = deck;
 
             // If user has no selectedProfessions we suggest the three topmost from the
             // professionDeck
             if (!user.selectedProfessions || user.selectedProfessions.length === 0) {
-                user.selectedProfessions = user.professionDeck.slice(0,3);
+                selectedProfessions = user.professionDeck.slice(0,3);
             }
 
-            user.save(function(err, user) {
-                if (err) { return next(err); }
+            console.log('Username ' + username);
+            console.log('_id ' + req.user._id);
 
-                setUserInfo(user);
-                res.json(user);
+            User.findOne({
+                _id: req.user._id
+            }, function(err, user) {
+
+                if (err) { return next(err) }
+
+                user.username = username;
+                user.sex = sex;
+                user.skills = skills;
+                user.selectedProfessions = selectedProfessions;
+                user.professionDeck = deck;
+                user.avatar = avatar;
+
+                user.save(function(err, user) {
+                    if (err) { return next(err); }
+
+                    var userInfo = setUserInfo(user);
+
+                    res.status(201).json({
+                        success: true,
+                        user: userInfo
+                    });
+                });
+
             });
 
         });

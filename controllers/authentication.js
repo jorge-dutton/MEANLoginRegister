@@ -9,7 +9,6 @@ const jwt = require('jsonwebtoken'),
 
 //function to generate a JSON web token from the user object we pass in
 function generateToken(user) {
-    console.log('Generating new token!!!');
     return jwt.sign(user, process.env.SECRET, {
         expiresIn : 60*60*24 // in seconds
     });
@@ -21,7 +20,7 @@ function generateToken(user) {
 function setUserInfo(request) {
     return {
         _id: request._id,
-        userName: request.userName,
+        username: request.username,
         email: request.email
 
     };
@@ -31,13 +30,14 @@ function setUserInfo(request) {
 // Login Route
 //========================================
 module.exports.login = function(req, res, next) {
+
     var userInfo = setUserInfo(req.user),
         token = generateToken(userInfo);
 
     res.cookie('jwt',token);
 
     res.status(200).json({
-        token: 'JWT ' + token,
+        token: token,
         user: userInfo
     });
 };
@@ -61,7 +61,7 @@ module.exports.logout = function(req, res, next) {
 module.exports.register = function(req, res, next) {
     // Check for registration errors
     const email = req.body.email;
-    const userName = req.body.username;
+    const username = req.body.username;
     const password = req.body.password;
 
     // Return error if no email provided
@@ -70,7 +70,7 @@ module.exports.register = function(req, res, next) {
     }
 
     // Return error if full name not provided
-    if (!userName) {
+    if (!username) {
         return res.status(422).send({ error: 'You must enter your full name.'});
     }
 
@@ -91,7 +91,7 @@ module.exports.register = function(req, res, next) {
         var user = new User({
             email: email,
             password: password,
-            username: userName
+            username: username
         });
 
         user.save(function(err, user) {
