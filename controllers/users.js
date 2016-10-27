@@ -101,10 +101,8 @@ module.exports.updateUser = function (req, res, next) {
 
             // If user has no selectedProfessions we suggest the three topmost from the
             // professionDeck
-            if (!user.selectedProfessions || user.selectedProfessions.length === 0) {
-                selectedProfessions = user.professionDeck.slice(0,3);
-            }
-
+            selectedProfessions = user.professionDeck.slice(0,3);
+            
             console.log('Username ' + username);
             console.log('_id ' + req.user._id);
 
@@ -126,10 +124,7 @@ module.exports.updateUser = function (req, res, next) {
 
                     var userInfo = setUserInfo(user);
 
-                    res.status(201).json({
-                        success: true,
-                        user: userInfo
-                    });
+                    res.status(201).json(userInfo);
                 });
 
             });
